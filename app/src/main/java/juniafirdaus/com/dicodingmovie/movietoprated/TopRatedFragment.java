@@ -2,6 +2,8 @@ package juniafirdaus.com.dicodingmovie.movietoprated;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import juniafirdaus.com.dicodingmovie.R;
 import juniafirdaus.com.dicodingmovie.apirepository.ApiService;
@@ -34,12 +37,13 @@ public class TopRatedFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_now, container, false);
 
         recyclerView = view.findViewById(R.id.rcvMovie);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setHasFixedSize(true);
 
         loadTopRated();
 
@@ -52,18 +56,21 @@ public class TopRatedFragment extends Fragment {
         Call<TopRatedResponse> ratedResponseCall = apiService.getToprated();
         ratedResponseCall.enqueue(new Callback<TopRatedResponse>() {
             @Override
-            public void onResponse(Call<TopRatedResponse> call, Response<TopRatedResponse> response) {
-                if (response.isSuccessful()){
-                    ArrayList<ResultsItem> resultsItems = (ArrayList<ResultsItem>) response.body().getResults();
+            public void onResponse(@NonNull Call<TopRatedResponse> call, @NonNull Response<TopRatedResponse> response) {
+                if (response.isSuccessful()) {
+                    ArrayList<ResultsItem> resultsItems = (ArrayList<ResultsItem>)
+                            Objects.requireNonNull(response.body()).getResults();
                     topRatedAdapter = new TopRatedAdapter(getActivity(), resultsItems);
                     recyclerView.setAdapter(topRatedAdapter);
-                }else {
+
+                } else {
                     Log.i("Top Rated", response.message());
+
                 }
             }
 
             @Override
-            public void onFailure(Call<TopRatedResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<TopRatedResponse> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });

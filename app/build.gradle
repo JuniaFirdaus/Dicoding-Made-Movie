@@ -7,7 +7,7 @@ android {
         buildConfigField "String", "MOVIE", "\"movie/\""
         buildConfigField "String", "GENRE", "\"genre/\""
         buildConfigField "String", "QUERY", "\"&language=en-US&query=query/\""
-        buildConfigField "String", "TOKEN", "\"YOURTOKENHERE\""
+        buildConfigField "String", "TOKEN", "\"4af97664fc4bc872bc1fe3d8872d5f6b\""
         buildConfigField "String", "IMAGE", "\"http://image.tmdb.org/t/p/w500\""
         applicationId "juniafirdaus.com.dicodingmovie"
         minSdkVersion 22
@@ -41,4 +41,5 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.github.vlonjatg:progress-activity:2.0.5'
 }

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import juniafirdaus.com.dicodingmovie.BuildConfig;
 import juniafirdaus.com.dicodingmovie.R;
@@ -22,9 +23,9 @@ import juniafirdaus.com.dicodingmovie.movietoprated.modeltoprated.ResultsItem;
 public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.TopHolder> {
 
     private Context context;
-    private ArrayList<ResultsItem> resultsItems;
+    private List<ResultsItem> resultsItems;
 
-    public TopRatedAdapter(Context context, ArrayList<ResultsItem> items){
+    public TopRatedAdapter(Context context, List<ResultsItem> items){
         this.context = context;
         this.resultsItems = items;
     }
@@ -51,6 +52,13 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.TopHol
                 .setDefaultRequestOptions(requestOptions)
                 .load(BuildConfig.IMAGE + resultsItems.get(i)
                 .getPosterPath()).into(topHolder.imageView);
+
+        topHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 

@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.vlonjatg.progressactivity.ProgressLayout;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import juniafirdaus.com.dicodingmovie.R;
 import juniafirdaus.com.dicodingmovie.apirepository.ApiService;
@@ -28,6 +31,7 @@ public class UpComingFragment extends Fragment {
 
     RecyclerView recyclerView;
     UpcomingAdapter upcomingAdapter;
+    ProgressLayout progressLayout;
 
     public UpComingFragment() {
         // Required empty public constructor
@@ -39,9 +43,10 @@ public class UpComingFragment extends Fragment {
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_now, container, false);
 
+       progressLayout = view.findViewById(R.id.progressActivity);
        recyclerView = view.findViewById(R.id.rcvMovie);
        recyclerView.setLayoutManager( new GridLayoutManager(getActivity(),2));
-
+       progressLayout.showLoading();
        loadUpcoming();
 
        return view;
@@ -55,17 +60,31 @@ public class UpComingFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<UpResponse> call, @NonNull Response<UpResponse> response) {
                 if (response.isSuccessful()){
-                    ArrayList<ResultsItem> arrayList = (ArrayList<ResultsItem>) response.body().getResults();
+                    progressLayout.showContent();
+                    ArrayList<ResultsItem> arrayList = (ArrayList<ResultsItem>)
+                            Objects.requireNonNull(response.body()).getResults();
                     upcomingAdapter = new UpcomingAdapter(getActivity(), arrayList);
                     recyclerView.setAdapter(upcomingAdapter);
+                }else {
+                    progressLayout.showEmpty(R.drawable.background,"No Movie",
+                            "We could not establish a connection with our servers. Try again when you are connected to the internet");
+
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<UpResponse> call, @NonNull Throwable t) {
                 t.printStackTrace();
-            }
+                progressLayout.showError(R.drawable.ic_signal, "No Connection",
+                        "We could not establish a connection with our servers. Try again when you are connected to the internet.",
+                        "Try Again", errorClickListener);        }
         });
     }
+    private View.OnClickListener errorClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            loadUpcoming();
+        }
+    };
 
 }

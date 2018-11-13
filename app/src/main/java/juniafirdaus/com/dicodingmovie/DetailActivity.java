@@ -1,5 +1,6 @@
 package juniafirdaus.com.dicodingmovie;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +11,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import juniafirdaus.com.dicodingmovie.movietoprated.modeltoprated.ResultsItem;
+
 
 public class DetailActivity extends AppCompatActivity {
 
     TextView mTxtTitle, mTxtGenre, mTxtOverview;
     ImageView mImgBackdrop, mImgPoster;
     android.support.v7.widget.Toolbar toolbar;
+    public static final String DETAIL="detail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

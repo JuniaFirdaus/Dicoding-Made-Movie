@@ -1,6 +1,7 @@
 package juniafirdaus.com.dicodingmovie.movienowplaying;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.vlonjatg.progressactivity.ProgressLinearLayout;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import juniafirdaus.com.dicodingmovie.movienowplaying.modelnowplaying.NowResponse;
 import juniafirdaus.com.dicodingmovie.movienowplaying.modelnowplaying.ResultsItem;
@@ -24,11 +28,10 @@ import retrofit2.Response;
 
 public class NowFragment extends Fragment {
 
-    static final String NOW_PLAYING = "Now_Playing";
-    static final String DETAIL_MOVIE = "detail_movie";
-
     RecyclerView recyclerView;
     NowAdapter nowAdapter;
+    ProgressLinearLayout progressLinearLayout;
+
 
     public NowFragment() {
     }
@@ -39,11 +42,11 @@ public class NowFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_now, container, false);
 
+        progressLinearLayout = view.findViewById(R.id.progressActivity);
         recyclerView = view.findViewById(R.id.rcvMovie);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
+        progressLinearLayout.showLoading();
         loadMovieNow();
-
         return view;
     }
 
@@ -56,20 +59,32 @@ public class NowFragment extends Fragment {
             public void onResponse(@NonNull Call<NowResponse> call, @NonNull Response<NowResponse> response) {
 
                 if (response.isSuccessful()) {
-                    Log.i("movie", response.body().getResults().toString());
+                    progressLinearLayout.showContent();
+                    Log.i("movie", Objects.requireNonNull(response.body()).getResults().toString());
                     ArrayList<ResultsItem> resultsItems = (ArrayList<ResultsItem>) response.body().getResults();
                     nowAdapter = new NowAdapter(getActivity(), resultsItems);
                     recyclerView.setAdapter(nowAdapter);
                 } else {
-                    Log.i("MOVIE", "Empty");
+                    progressLinearLayout.showEmpty(R.drawable.background, "No Movie",
+                            "We could not establish a connection with our servers. Try again when you are connected to the internet.");
                 }
 
             }
 
             @Override
             public void onFailure(@NonNull Call<NowResponse> call, @NonNull Throwable t) {
+                progressLinearLayout.showError(R.drawable.ic_signal, "No Connection",
+                        "We could not establish a connection with our servers. Try again when you are connected to the internet.",
+                        "Try Again", errorClickListener);
                 t.printStackTrace();
             }
         });
     }
+
+    private View.OnClickListener errorClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            loadMovieNow();
+        }
+    };
 }

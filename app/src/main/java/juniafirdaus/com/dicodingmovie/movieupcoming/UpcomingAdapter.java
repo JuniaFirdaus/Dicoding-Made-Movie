@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import juniafirdaus.com.dicodingmovie.BuildConfig;
 import juniafirdaus.com.dicodingmovie.DetailActivity;
 import juniafirdaus.com.dicodingmovie.R;
-import juniafirdaus.com.dicodingmovie.modelgenre.GenreResponse;
 import juniafirdaus.com.dicodingmovie.movieupcoming.modelupcoming.ResultsItem;
 
 public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.UpHolder> {
@@ -47,8 +46,6 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.UpHold
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.background);
-
-        Log.i("idGenre", String.valueOf(resultsItems.get(i).getGenreIds().get(0)));
 
         upHolder.mTxtGenre.setText(resultsItems.get(i).getReleaseDate());
         upHolder.mTxtTitle.setText(resultsItems.get(i).getTitle());

@@ -2,7 +2,6 @@ package juniafirdaus.com.dicodingmovie.apirepository;
 
 import juniafirdaus.com.dicodingmovie.BuildConfig;
 import juniafirdaus.com.dicodingmovie.movienowplaying.modelnowplaying.NowResponse;
-import juniafirdaus.com.dicodingmovie.modelgenre.GenreResponse;
 import juniafirdaus.com.dicodingmovie.movietoprated.modeltoprated.TopRatedResponse;
 import juniafirdaus.com.dicodingmovie.movieupcoming.modelupcoming.UpResponse;
 import juniafirdaus.com.dicodingmovie.searchmovie.SearchResponse;
@@ -17,9 +16,6 @@ public interface ApiService {
 
     @GET(BuildConfig.MOVIE + "upcoming?api_key=" + BuildConfig.TOKEN)
     Call<UpResponse> up_coming();
-
-    @GET(BuildConfig.GENRE + BuildConfig.MOVIE + "list?api_key=" + BuildConfig.TOKEN)
-    Call<GenreResponse> getGenre();
 
     @GET("search/movie?api_key=" + BuildConfig.TOKEN + BuildConfig.QUERY)
     Call<SearchResponse>search_movie(@Query("query") String movie);
