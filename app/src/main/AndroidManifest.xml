@@ -25,7 +25,7 @@
         <activity
             android:name=".DetailActivity"
             android:theme="@style/AppTheme.Overlay" />
-        <activity android:name=".searchmovie.SearchActivity"></activity>
+        <activity android:name=".searchmovie.main.SearchActivity"/>
     </application>
 
 </manifest>

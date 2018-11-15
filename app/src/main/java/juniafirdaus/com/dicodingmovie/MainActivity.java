@@ -1,6 +1,5 @@
 package juniafirdaus.com.dicodingmovie;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,16 +7,15 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import juniafirdaus.com.dicodingmovie.movienowplaying.NowFragment;
-import juniafirdaus.com.dicodingmovie.movietoprated.TopRatedFragment;
-import juniafirdaus.com.dicodingmovie.movieupcoming.UpComingFragment;
-import juniafirdaus.com.dicodingmovie.searchmovie.SearchActivity;
+import juniafirdaus.com.dicodingmovie.movienowplaying.main.NowFragment;
+import juniafirdaus.com.dicodingmovie.movietoprated.main.TopRatedFragment;
+import juniafirdaus.com.dicodingmovie.movieupcoming.main.UpFragment;
+import juniafirdaus.com.dicodingmovie.searchmovie.main.SearchActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,35 +37,25 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_dashboard:
 
-                    UpComingFragment upComingFragment = new UpComingFragment();
-                    FragmentManager fragmentManager1 = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
-                    fragmentTransaction1.replace(R.id.frame, upComingFragment, UpComingFragment.class.getSimpleName());
-                    fragmentTransaction1.commit();
+                    UpFragment upFragment = new UpFragment();
+                    FragmentManager fragmentManager2 = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
+                    fragmentTransaction2.replace(R.id.frame, upFragment, UpFragment.class.getSimpleName());
+                    fragmentTransaction2.commit();
 
                     return true;
                 case R.id.navigation_notifications:
 
                     TopRatedFragment topRatedFragment = new TopRatedFragment();
-                    FragmentManager fragmentManager2 = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-                    fragmentTransaction2.replace(R.id.frame, topRatedFragment, TopRatedFragment.class.getSimpleName());
-                    fragmentTransaction2.commit();
+                    FragmentManager fragmentManager1 = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
+                    fragmentTransaction1.replace(R.id.frame, topRatedFragment, TopRatedFragment.class.getSimpleName());
+                    fragmentTransaction1.commit();
 
                     return true;
 
                 case R.id.navigation_setting:
-
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                    alert.setTitle("Setting")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            })
-                            .show();
-                    }
+            }
             return false;
         }
     };
@@ -82,15 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Fragment fragment = new NowFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame, fragment)
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_item, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search);
